@@ -1,0 +1,80 @@
+<h3>Update Task</h3>
+<div style="width: 400px; margin: auto;">
+    <div class="submit-form">
+      <div *ngIf="!submitted">
+        <div class="form-group">
+          <label for="title">Quote Type</label>
+          <input
+            type="text"
+            class="form-control"
+            id="title"
+            required
+            [(ngModel)]="task.quoteType"
+            name="quoteType"
+          />
+        </div>
+  
+        <!-- <div class="form-group">
+          <label for="description">Task Type</label>
+          <input
+            class="form-control"
+            id="description"
+            required
+            [(ngModel)]="task.taskType"
+            name="taskType"
+          />
+        </div>
+
+        <div class="form-group">
+            <label for="description">Contact ID</label>
+            <input
+              class="form-control"
+              id="description"
+              required
+              [(ngModel)]="task.contactID"
+              name="contactID"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="description">Quote</label>
+            <input
+              class="form-control"
+              id="description"
+              required
+              [(ngModel)]=""
+              name=""
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="description">Due Date</label>
+            <input
+              class="form-control"
+              id="description"
+              required
+              [(ngModel)]="task.taskDueDate"
+              name="taskDueDate"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="description">Task Description</label>
+            <input
+              class="form-control"
+              id="description"
+              required
+              [(ngModel)]="task.taskDescription"
+              name="taskDescription"
+            />
+          </div>
+   -->
+        <button (click)="saveTask()" class="btn btn-success">Submit</button>
+      </div>
+  
+      <div *ngIf="submitted">
+        <h4>You submitted successfully!</h4>
+        <button class="btn btn-success" (click)="newTask()">Add</button>
+      </div>
+    </div>
+  </div>

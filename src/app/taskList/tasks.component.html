@@ -1,0 +1,63 @@
+<div class="col-md-8">
+    <div class="input-group mb-3">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Search by description"
+        [(ngModel)]="title"
+      />
+      <div class="input-group-append">
+        <button
+          class="btn btn-outline-secondary"
+          type="button"
+          (click)="searchTitle()"
+        >
+          Search
+        </button>
+      </div>
+    </div>
+  </div>
+
+ 
+<button #addTask routerLink="/add"  routerLinkActive="active">Add Task</button>
+<!-- 下拉菜单filter:显示几行、排序顺序，升降序，搜索框 -->
+
+<button #showAllTasks class='' routerLink=""  routerLinkActive="active" >Show All</button>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th (click)="sort('name')">Quote Type</th>
+            <th (click)="sort('name')">Quote#</th>
+            <th (click)="sort('orderTotal')">Contact ID</th>
+            <th (click)="sort('orderTotal')">Task Description</th>
+            <th (click)="sort('orderTotal')">Due Date</th>
+            <th (click)="sort('city')">Task Type</th>
+        </tr>
+    </thead>
+    <tr *ngFor="let cust of tasksList" >
+        <td>{{ cust.QuoteType }}</td>
+        <td>
+            <a>
+                {{ cust.QuoteID }}
+            </a>
+        </td>
+        <td>{{ cust.ContactID }}</td>
+        <td>{{ cust.TaskDescription }}</td>
+        <td>{{ cust.TaskDueDate }}</td>
+        <td>{{ cust.TaskType }}</td>  
+    </tr>
+    <!-- <tr *ngIf="tasksList && tasksList.length">
+        <td colspan="2">&nbsp;</td>
+        <td>
+            {{  }}
+        </td>
+    </tr> -->
+    <tr *ngIf="!tasksList || !tasksList.length">
+        <td colspan="4">No Tasks found</td>
+    </tr> 
+</table>
+Showing 1 to 10 of {{ tasksList.length }} entries
+<br />
+
+<app-task-details></app-task-details>

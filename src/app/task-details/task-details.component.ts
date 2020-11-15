@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { TasksService } from '../taskList/tasks.service';
 import { ITasks } from '../taskList/tasks';
 import { ActivatedRoute, Router } from '@angular/router';
+import {Location} from '@angular/common';
+
 
 @Component({
   selector: 'app-task-details',
@@ -14,14 +16,22 @@ export class TaskDetailsComponent implements OnInit {
 
   constructor(private _tasksService: TasksService,
     private route: ActivatedRoute,
-    private router: Router) { }
+    private router: Router,
+    private _location: Location) { }
 
   ngOnInit(): void {
     this.message = '';
     this.getTask(this.route.snapshot.paramMap.get('id'));
+   
+  }
+
+  backClicked() {
+    console.log(this._location.path);
+    this._location.back();
   }
 
   getTask(id): void {
+  
     this._tasksService.getTaskById(id)
       .subscribe(
         data => {
@@ -37,7 +47,10 @@ export class TaskDetailsComponent implements OnInit {
     const data = {
       _quoteID: this.currentTask.QuoteID,
       _quoteType: this.currentTask.QuoteType,
-      _taskDescription: this.currentTask.TaskDescription
+      _contactID:this.currentTask.ContactID,
+      _taskDescription: this.currentTask.TaskDescription,
+      _taskDueDate:this.currentTask.TaskDueDate,
+      _taskType:this.currentTask.TaskType
     };
 
     this._tasksService.updateTask(this.currentTask.QuoteID, data)
@@ -65,7 +78,7 @@ export class TaskDetailsComponent implements OnInit {
   }
 
   deleteTask(): void {
-    this._tasksService.delete(this.currentTask.id)
+    this._tasksService.delete(this.currentTask.QuoteID)
       .subscribe(
         response => {
           console.log(response);

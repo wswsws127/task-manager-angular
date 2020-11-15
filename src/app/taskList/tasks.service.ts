@@ -1,8 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable,Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';  
 import { HttpHeaders } from '@angular/common/http';  
 import { Observable } from 'rxjs';  
 import { map } from 'rxjs/operators';
+import { HttpErrorResponse } from "@angular/common/http";
+import { HttpParams } from "@angular/common/http";
 
 
 import { ITasks, Tasks } from './tasks';
@@ -12,11 +14,19 @@ import { ITasks, Tasks } from './tasks';
 // at the moment, we may remove the @Injectable() decorator and the
 // service works exactly the same way. However, Angular recomends
 // to always use @Injectable() decorator to ensures consistency
-@Injectable()
+@Injectable(
+  {
+    providedIn: 'root'
+  }
+)
 export class TasksService {
-    private url ='https://localhost:44350/api/tasks';  
+    public url ='https://localhost:44350/api/tasks';  
        // Inject Angular http service
+    
+    searchInfo:any;
        constructor(private _http: HttpClient) { }
+
+       
 
        httpOptions = {
         headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -31,9 +41,16 @@ export class TasksService {
         
     }
 
-    getTaskById(taskID: string): Observable<Tasks> {  
-        return this._http.get<Tasks>(`${this.url}/${taskID}`);  
+    getTaskById(id): Observable<Tasks> {  
+        return this._http.get<Tasks>(`${this.url}/${id}`);  
       }  
+
+
+    // public sendGETRequestWithParameters(_data){
+    //      this.searchInfo=_data;
+    //     let params = new HttpParams();
+    //     return this._http.get(this.url, {params: params});
+    //   }
 
       createTask(data): Observable<any> {  
         const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json'}) };  
@@ -42,11 +59,11 @@ export class TasksService {
 
       updateTask(id: number, data): Observable<Tasks> {  
         const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json'}) };  
-        return this._http.put<Tasks>(this.url , data, httpOptions);  
+        return this._http.put<Tasks>(`${this.url}/${id}`, data, httpOptions);  
       }  
 
-      findByTitle(title): Observable<any> {
-        return this._http.get(`${this.url}?title=${title}`);
+      findByType(quoteType): Observable<any> {
+        return this._http.get(`${this.url}?quoteType=${quoteType}`);
       }
 
       

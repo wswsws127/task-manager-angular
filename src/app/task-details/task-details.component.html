@@ -1,1 +1,120 @@
-<p>task-details works!</p>
+<div style="width: 400px; margin: auto;">
+    <div *ngIf="currentTask" class="edit-form">
+      <h1>View Task Details</h1>  
+      <form>
+        <div class="form-group">
+            <label for="taskID">Task ID</label>
+             <input
+               type="number"
+               class="form-control"
+               id="taskID"
+               disabled
+               [(ngModel)]="currentTask.QuoteID"
+               name="taskID"
+             />
+           </div>
+
+        <div class="form-group">
+         <label for="quoteType">Quote Type</label>
+          <input
+            type="text"
+            class="form-control"
+            id="quoteType"
+            disabled
+            [(ngModel)]="currentTask.QuoteType"
+            name="quoteType"
+          />
+        </div>
+
+        
+        <div class="form-group">
+          <label for="contactID">Contact ID</label>
+          <input
+            class="form-control"
+            id="contactID"
+            disabled
+            [(ngModel)]="currentTask.ContactID"
+            name="contactID"
+          />
+        </div>
+
+        <div class="form-group">
+            <label for="taskType">Task Type</label>
+            <input
+              class="form-control"
+              id="taskType"
+              disabled
+              [(ngModel)]="currentTask.TaskType"
+              name="taskType"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="taskDueDate">Task Due Date</label>
+            <input
+              class="form-control"
+              id="taskDueDate"
+              disabled
+              
+              [ngModel]="currentTask.TaskDueDate |date:'dd/MM/yyyy'"
+              name="taskDueDate"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="taskDescription">Task Description</label>
+            <input
+              class="form-control"
+              id="taskDescription"
+              disabled
+              [(ngModel)]="currentTask.TaskDescription"
+              name="taskDescription"
+            />
+          </div>
+  
+        <div class="form-group">
+          <label><strong>Status:</strong></label>
+          {{ currentTask.published ? "Published" : "Pending" }}
+        </div>
+      </form>
+  
+      <!-- <button
+        class="badge badge-primary mr-2"
+        *ngIf="currentTask.published"
+        (click)="updatePublished(false)"
+      >
+        UnPublish
+      </button>
+      <button
+        *ngIf="!currentTask.published"
+        class="badge badge-primary mr-2"
+        (click)="updatePublished(true)"
+      >
+        Publish
+      </button>
+  
+      <button class="badge badge-danger mr-2" (click)="deleteTask()">
+        Delete
+      </button> -->
+  
+      <!-- <button
+        type="submit"
+        class="badge badge-success"
+        (click)="updateTask()"
+      >
+        Update
+      </button> -->
+   
+        <button class="btn btn-success"
+        (click)="backClicked()"
+        >Back</button>
+       
+
+      <p>{{ message }}</p>
+    </div>
+  
+    <div *ngIf="!currentTask">
+      <br />
+      <p>Cannot access this Task...</p>
+    </div>
+  </div>

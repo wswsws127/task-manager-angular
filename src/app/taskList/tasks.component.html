@@ -1,52 +1,114 @@
-<div class="col-md-8">
-    <div class="input-group mb-3">
-      <input
-        type="text"
-        class="form-control"
-        placeholder="Search by description"
-        [(ngModel)]="title"
-      />
-      <div class="input-group-append">
-        <button
-          class="btn btn-outline-secondary"
-          type="button"
-          (click)="searchTitle()"
-        >
-          Search
-        </button>
-      </div>
-    </div>
-  </div>
 
- 
-<button #addTask routerLink="/add"  routerLinkActive="active">Add Task</button>
+  <h1>Task List</h1>  
+
+
+<div class="row">
+  <button id="addTask"
+class="btn btn-outline-primary" (click)="openAddModal()"
+>Add Task</button>
+
+  <!--【THE SEARCH BOX】-->
+  <!-- <form [formGroup]="formGroup">
+    <input
+      type="text"
+      class="form-control"
+      name="searchString"
+      placeholder="Type to search..."
+      formControlName="filter"
+      [(ngModel)]="taskDescription"
+    />
+  </form> -->
+
 <!-- 下拉菜单filter:显示几行、排序顺序，升降序，搜索框 -->
 
-<button #showAllTasks class='' routerLink=""  routerLinkActive="active" >Show All</button>
 
-<table class="table table-hover">
+<!-- <button #showAllTasks class='' routerLink=""  routerLinkActive="active" >Show All</button> -->
+
+<div id="rowPerPage" class="d-flex flex-row-reverse bd-highlight mb-2">
+  <div id="perPageText">
+    <span>Records per page:</span>
+  </div>
+  <div class="p-2 bd-highlight">
+    <select (change)="onTableSizeChange($event)" class="custom-select">
+      <option *ngFor="let size of tableSizes" [ngValue]="size">
+        {{ size }}
+      </option>
+    </select>
+  </div>
+</div>
+
+<form id="searchForm">
+  <div class="form-group">
+      <div class="input-group" id="filterAll">
+        <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
+        <input type="text" class="form-control" name="searchString" placeholder="Search..." [(ngModel)]="searchString">
+      </div>
+  </div>
+</form>
+
+</div>
+
+<table class="table table-hover table-striped">
     <thead>
+
         <tr>
-            <th (click)="sort('name')">Quote Type</th>
-            <th (click)="sort('name')">Quote#</th>
-            <th (click)="sort('orderTotal')">Contact ID</th>
-            <th (click)="sort('orderTotal')">Task Description</th>
-            <th (click)="sort('orderTotal')">Due Date</th>
-            <th (click)="sort('city')">Task Type</th>
+            <th class="" scope="col" [appSort]="tasksList" data-order="desc" data-name="QuoteType">Quote Type</th>
+            <th class="" scope="col" [appSort]="tasksList" data-order="desc" data-name="QuoteID">Quote#</th>
+            <th class="" scope="col" [appSort]="tasksList" data-order="desc" data-name="ContactID">Contact ID</th>
+            <th class="" scope="col" [appSort]="tasksList" data-order="desc" data-name="TaskDescription">Task Description</th>
+            <th class="" scope="col" [appSort]="tasksList" data-order="desc" data-name="TaskDueDate" data-type="date">Due Date</th>
+            <th class="" scope="col" [appSort]="tasksList" data-order="desc" data-name="TaskType">Task Type</th>
+            <th class="">Actions</th>
         </tr>
     </thead>
-    <tr *ngFor="let cust of tasksList" >
-        <td>{{ cust.QuoteType }}</td>
+    <tbody *ngIf="tasksList?.length != 0">
+    <tr *ngFor="let task of tasksList |  paginate : {
+          itemsPerPage: tableSize,
+          currentPage: page,
+          totalItems: count
+        }; 
+        
+        let i = index" 
+        [class.active]="i == currentIndex" >
+        <td>{{ task.QuoteType }}</td>
         <td>
             <a>
-                {{ cust.QuoteID }}
+                {{ task.QuoteID }}
             </a>
         </td>
-        <td>{{ cust.ContactID }}</td>
-        <td>{{ cust.TaskDescription }}</td>
-        <td>{{ cust.TaskDueDate }}</td>
-        <td>{{ cust.TaskType }}</td>  
+        <td>{{ task.ContactID }}</td>
+        <td>{{ task.TaskDescription }}</td>
+        <td>{{ task.TaskDueDate | date:'fullDate' }}</td>
+        <td>{{ task.TaskType }}</td>  
+        
+        <td>
+          <button mat-raised-button
+          class="form-button form-button btn btn-light btn-sm"
+           (click)="setActiveTask(task, i) " 
+          [class.active]="i == currentIndex"
+          routerLink="/tasks/{{ task.QuoteID }}"
+          >
+          View
+        </button>
+       
+          <button mat-raised-button
+          class="form-button btn btn-light btn-sm"
+           (click)="setActiveTask(task, i); openEditModal(task); " 
+          [class.active]="i == currentIndex"
+          >
+          Edit
+        </button>
+         
+          <button mat-raised-button
+          class="form-button btn btn-light btn-sm"
+          id="delete-button"
+          (click)="setActiveTask(task, i); openConfirmModal(task); " 
+          [class.active]="i == currentIndex"
+          >Delete</button>
+        </td>
+        
     </tr>
+
     <!-- <tr *ngIf="tasksList && tasksList.length">
         <td colspan="2">&nbsp;</td>
         <td>
@@ -56,8 +118,26 @@
     <tr *ngIf="!tasksList || !tasksList.length">
         <td colspan="4">No Tasks found</td>
     </tr> 
+     </tbody>
+<!-- 
+     <tbody *ngIf="tasksList?.length == 0">
+      <tr>
+        <td colspan="3" class="no-data-available">No data!</td>
+      </tr>
+     </tbody> -->
 </table>
-Showing 1 to 10 of {{ tasksList.length }} entries
+<div class="d-flex justify-content-center" id="paginator">
+  Showing 1 to {{rowsPerPage }} of {{ tasksList.length }} entries
+  <pagination-controls 
+    responsive="true" 
+    previousLabel="Prev" 
+    nextLabel="Next" 
+    (pageChange)="onTableDataChange($event)">
+  </pagination-controls>
+     
+</div>
+
 <br />
 
-<app-task-details></app-task-details>
+
+

@@ -1,0 +1,60 @@
+#search_filter{
+    float: right;
+    text-align: right;
+    display: block;
+    flex: auto;
+}
+
+.form-button {
+    margin-right: 5px;
+    height: 24px;
+    width: 60PX;
+    display:inline;
+    padding: 0px;
+    width: min-content;
+    min-width: 45px;
+    margin-right: 8px;
+}
+
+#paginator{
+    flex: auto;
+}
+
+#rowPerPage{
+   
+    display: flex; /* or inline-flex */
+}
+
+#perPageText{
+    display: flex;
+    order: 1;
+    margin-top: 10px;
+}
+
+#addTask{
+    height: 40px;
+    margin-right: 20px;
+    text-align: center;
+}
+
+.tHead{
+text-align: center;
+}
+
+/*
+   server-side-angular-way.component.css
+*/
+.no-data-available {
+    text-align: center;
+  }
+  
+  /*
+     src/styles.css (i.e. your global style)
+  */
+  .dataTables_empty {
+    display: none;
+  }
+
+  /* #mainTable{
+   line-height: 20px; 
+  } */

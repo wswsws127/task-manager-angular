@@ -1,0 +1,152 @@
+<div id="modal-content-wrapper">
+    <header id="modal-header">
+      <h1 id="modal-title">Add new task</h1>
+    </header>
+    
+    <section id="modal-body">
+    
+        <div class="submit-form">
+          <form [formGroup]="angForm" novalidate >
+          <div *ngIf="!submitted">
+
+        <!-- 表格行 -->
+        <div class="form-group">
+          <label for="title">Quote Type</label>
+          <input
+            type="text"
+            class="form-control"
+            id="title"
+            required
+            [(ngModel)]="currentTask.QuoteType"
+            formControlName="quoteType"
+          />
+        </div>
+
+      <!-- 提示语 -->
+        <div *ngIf="angForm.controls['quoteType'].invalid && (angForm.controls['quoteType'].dirty || angForm.controls['quoteType'].touched)" 
+        class="alert alert-danger">
+            <div *ngIf="angForm.controls['quoteType'].errors.required">
+              Quote Type is required.
+          </div>
+      </div>
+
+          
+    
+      <div class="form-group">
+        <label for="description">Task Type</label>
+        <input
+          class="form-control"
+          id="taskType"
+          required
+          [(ngModel)]="currentTask.TaskType"
+          formControlName="taskType"
+        />
+      </div>
+
+      <!-- 提示语 -->
+      <div *ngIf="angForm.controls['taskType'].invalid && (angForm.controls['taskType'].dirty || angForm.controls['taskType'].touched)" 
+       class="alert alert-danger">
+          <div *ngIf="angForm.controls['taskType'].errors.required">
+            Task Type is required.
+        </div>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Contact ID</label>
+      <input
+        class="form-control"
+        id="contactID"
+        required
+        [(ngModel)]="currentTask.ContactID"
+        formControlName="contactID"
+      />
+  </div>
+
+        <!-- 提示语 -->
+      <div *ngIf="angForm.controls['contactID'].invalid && (angForm.controls['contactID'].dirty || angForm.controls['contactID'].touched)" 
+      class="alert alert-danger">
+      <div *ngIf="angForm.controls['contactID'].errors.required">
+        Contact ID is required.
+      </div>
+      </div>
+
+              <div class="form-group">
+                <label for="description">Due Date</label>
+                <br>
+                <mat-form-field class="example-full-width" >
+                  <input matInput 
+                  required
+                  [matDatepicker]="picker" 
+                   placeholder="Choose a date"
+                  [min]="minDate" [max]="maxDate"
+                  class="form-control"
+                  id="description"
+                  [(ngModel)]="currentTask.TaskDueDate"
+                  formControlName="taskDueDate"
+                  >
+                  
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                  
+                </mat-form-field>
+                <!-- <input matInput [matDatepicker]
+                  class="form-control"
+                  id="description"
+                  required
+                  [(ngModel)]="currentTask.TaskDueDate"
+                  name="taskDueDate"
+                /> -->
+                
+              </div>
+
+                <!-- 提示语 -->
+          <div *ngIf="angForm.controls['taskDueDate'].invalid && (angForm.controls['taskDueDate'].dirty || angForm.controls['taskDueDate'].touched)" 
+              class="alert alert-danger">
+                <div *ngIf="angForm.controls['taskDueDate'].errors.required">
+                  Due Date is required.
+              </div>
+          </div>
+
+          <div class="form-group">
+            <label for="description">Task Description</label>
+            <input  
+              class="form-control"
+              id="description"
+              required
+              [(ngModel)]="currentTask.TaskDescription"
+              formControlName="taskDescription"
+            />
+            
+          </div>
+          <div *ngIf="angForm.controls['taskDescription'].invalid && (angForm.controls['taskDescription'].dirty || angForm.controls['taskDescription'].touched)" 
+              class="alert alert-danger">
+                <div *ngIf="angForm.controls['taskDescription'].errors.required">
+                  Task Description is required.
+              </div>
+          </div>
+          
+          
+          </div>
+        </form>
+      
+          <div *ngIf="submitted">
+            <h4>You updated successfully!</h4>
+            
+          </div>
+    
+          
+      
+    
+        </div>
+     
+    </section>
+    <footer id="modal-footer">
+      
+        <button *ngIf="!submitted" mat-raised-button (click)="saveTask()" 
+        [disabled]="!angForm.valid"
+        class="btn btn-success">Update</button>
+
+        <button mat-raised-button id="modal-cancel-button" 
+        (click)="closeModal()">Close</button>
+      </footer>
+    </div>
